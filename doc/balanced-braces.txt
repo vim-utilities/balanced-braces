@@ -1,0 +1,114 @@
+*balanced-braces.txt*      For Vim version 8.0.       Last change: 2021 Jan 07
+
+
+                    Balanced Braces         by S0AndS0
+
+
+Balanced Braces                                              *balanced-braces*
+
+1. Insert mode defaults                               |balanced-braces-normal|
+2. Functions                                       |balanced-braces-functions|
+3. Configuration                               |balanced-braces-configuration|
+4. Notes                                               |balanced-braces-notes|
+
+==============================================================================
+1. Insert mode defaults                               *balanced-braces-normal*
+
+                                                    `{`
+{                    Open curly-brace; automatically insert a closing
+                     curly-brace, and move the cursor left by one column
+
+                                                    `}`
+}
+                     Close curly-brace; optionally move the cursor right by
+                     one column, if currently on a closing curly-brace, or
+                     insert closing curly-brace
+
+                                                    `(`
+(                    Open parenthesis; automatically insert a closing
+                     parenthesis, and move the cursor left by one column
+
+                                                    `)`
+}
+                     Close parenthesis; optionally move the cursor right by
+                     one column, if currently on a closing parenthesis, or
+                     insert closing parenthesis
+
+                                                    `[`
+[                    Open square-bracket; automatically insert a closing
+                     square-bracket, and move the cursor left by one column
+
+                                                    `]`
+]
+                     Close square-bracket; optionally move the cursor right
+                     by one column, if currently on a closing square-bracket,
+                     or insert closing square-bracket
+
+==============================================================================
+2. Functions                                       *balanced-braces-functions*
+
+Balanced_Braces(input, open, close)
+
+{string} input       Character that was read from keyboard input
+
+{string} open        Open brace, bracket, or parenthesis
+
+{string} close       Closing brace, bracket, or parenthesis
+
+==============================================================================
+3. Configuration                               *balanced-braces-configuration*
+
+                     Existing defaults may be modified or extended by
+                     assigning `g:balanced_braces` variable within the
+                     `~/.vimrc` file for a given account.
+                     Defaults example~
+                     >
+    let g:balanced_braces = {
+          \   'parentheses': { 'open': '(', 'close': ')' },
+          \   'curly-brace': { 'open': '{', 'close': '}' },
+          \   'square-bracket': { 'open': '[', 'close': ']' },
+          \ }
+<
+                     Adding new symbol pares is facilitated by defining a top
+                     level key name.
+                     Customization example~
+                     >
+    let g:balanced_braces = {
+          \   'angle-bracket': { 'open': '<', 'close': '>' },
+          \ }
+<
+                     Alternitively one may instead assign a JSON file path to
+                     the `g:balanced_braces` variable to customize
+                     configurations
+                     JSON file example contents~
+                     >
+    {
+      "parentheses": {
+        "open": "(",
+        "close": ")"
+      },
+      "curly-brace": {
+        "open": "{",
+        "close": "}"
+      },
+      "square-bracket": {
+        "open": "[",
+        "close": "]"
+      }
+    }
+<
+                    Configuration via JSON example~
+                    >
+    let g:balanced_braces = '~/.vim/configs/balanced-braces.json'
+<
+
+==============================================================================
+4. Notes                                               *balanced-braces-notes*
+
+                     Bugs for this plugin should be reported to plugin
+                     authors, not Vim maintainers.
+
+    https://github.com/vim-utilities/balanced-braces/issues
+
+
+ vim:tw=78:ts=8:ft=help:norl:
