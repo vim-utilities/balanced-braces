@@ -1,9 +1,4 @@
-#
-#    Make variables to satisfy conventions
-#
-NAME = balanced-braces
-VERSION = 0.0.1
-PKG_NAME = $(NAME)-$(VERSION)
+#!/usr/bin/make -f
 
 
 # Install/Uninstall make script for `balanced-braces` Vim plugin
@@ -20,6 +15,14 @@ PKG_NAME = $(NAME)-$(VERSION)
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+#
+#    Make variables to satisfy conventions
+#
+NAME = balanced-braces
+VERSION = 0.0.2
+PKG_NAME = $(NAME)-$(VERSION)
 
 
 #
