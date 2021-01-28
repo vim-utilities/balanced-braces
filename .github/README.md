@@ -180,7 +180,7 @@ After installation, plugin documentation may be accessed via Vim's `:help` comma
 
 
 ```Vim
-:help balanced-braces.txt
+help balanced-braces.txt
 ```
 
 
@@ -225,10 +225,23 @@ Existing defaults may be modified or extended by assigning `g:balanced_braces` v
 
 ```Vim
 let g:balanced_braces = {
-      \   'parentheses': { 'open': '(', 'close': ')' },
-      \   'curly-brace': { 'open': '{', 'close': '}' },
-      \   'square-bracket': { 'open': '[', 'close': ']' },
+      \   'exclude': [],
+      \   'all': {
+      \     'parentheses': { 'open': '(', 'close': ')' },
+      \     'curly-brace': { 'open': '{', 'close': '}' },
+      \     'square-bracket': { 'open': '[', 'close': ']' },
+      \   },
       \ }
+```
+
+
+Exclude example...
+
+
+```Vim
+let g:balanced_braces = {
+     \   'exclude': [ 'help', 'markdown' ],
+     \ }
 ```
 
 
@@ -237,8 +250,34 @@ Example of adding angle-bracket support...
 
 ```Vim
 let g:balanced_braces = {
-      \   'angle-bracket': { 'open': '<', 'close': '>' },
+      \   'all': {
+      \     'angle-bracket': { 'open': '<', 'close': '>' },
+      \   },
       \ }
+```
+
+
+Filetype customization example
+
+
+```Vim
+let g:balanced_braces = {
+      \   'html': {
+      \     'angle-bracket': { 'open': '<', 'close': '>' },
+      \   },
+      \ }
+```
+
+
+Remove `all` entry example...
+
+
+```Vim
+let g:balanced_braces = {
+     \   'all': {
+     \     'square-bracket': false,
+     \   },
+     \ }
 ```
 
 
@@ -250,17 +289,26 @@ Alternatively one may instead assign a JSON file path to the `g:balanced_braces`
 
 ```JSON
 {
-  "parentheses": {
-    "open": "(",
-    "close": ")"
+  "exclude": [],
+  "all": {
+    "parentheses": {
+      "open": "(",
+      "close": ")"
+    },
+    "curly-brace": {
+      "open": "{",
+      "close": "}"
+    },
+    "square-bracket": {
+      "open": "[",
+      "close": "]"
+    }
   },
-  "curly-brace": {
-    "open": "{",
-    "close": "}"
-  },
-  "square-bracket": {
-    "open": "[",
-    "close": "]"
+  "html": {
+    "angle-bracket": {
+      "open": "<",
+      "close": ">"
+    }
   }
 }
 ```

@@ -1,4 +1,4 @@
-*balanced-braces.txt*      For Vim version 8.0.       Last change: 2021 Jan 07
+*balanced-braces.txt*      For Vim version 8.0.       Last change: 2021 Jan 25
 
 
                     Balanced Braces         by S0AndS0
@@ -6,13 +6,13 @@
 
 Balanced Braces                                              *balanced-braces*
 
-1. Insert mode defaults                               |balanced-braces-normal|
+1. Insert Mode defaults                               |balanced-braces-insert|
 2. Functions                                       |balanced-braces-functions|
 3. Configuration                               |balanced-braces-configuration|
 4. Notes                                               |balanced-braces-notes|
 
 ==============================================================================
-1. Insert mode defaults                               *balanced-braces-normal*
+1. Insert Mode defaults                               *balanced-braces-insert*
 
                                                     `{`
 {                    Open curly-brace; automatically insert a closing
@@ -46,9 +46,9 @@ Balanced Braces                                              *balanced-braces*
 
 ==============================================================================
 2. Functions                                       *balanced-braces-functions*
-
-Balanced_Braces(input, open, close)
-
+>
+  Balanced_Braces(input, open, close)
+<
 {string} input       Character that was read from keyboard input
 
 {string} open        Open brace, bracket, or parenthesis
@@ -64,36 +64,76 @@ Balanced_Braces(input, open, close)
                      Defaults example~
                      >
     let g:balanced_braces = {
-          \   'parentheses': { 'open': '(', 'close': ')' },
-          \   'curly-brace': { 'open': '{', 'close': '}' },
-          \   'square-bracket': { 'open': '[', 'close': ']' },
+          \   'exclude': [],
+          \   'all': {
+          \     'parentheses': { 'open': '(', 'close': ')' },
+          \     'curly-brace': { 'open': '{', 'close': '}' },
+          \     'square-bracket': { 'open': '[', 'close': ']' },
+          \   },
           \ }
 <
-                     Adding new symbol pares is facilitated by defining a top
-                     level key name.
-                     Customization example~
+                     The `exclude` list may define 'filetype' strings this
+                     plugin should ignore.
+                     Exclude example~
                      >
     let g:balanced_braces = {
-          \   'angle-bracket': { 'open': '<', 'close': '>' },
+         \   'exclude': [ 'help', 'markdown' ],
+         \ }
+<
+                     Add new symbol pare, or modify existing configuration
+                     entries, under top-level `all` configuration key.
+                     Customize `all` example~
+                     >
+    let g:balanced_braces = {
+          \   'all': {
+          \     'angle-bracket': { 'open': '<', 'close': '>' },
+          \   },
           \ }
 <
-                     Alternitively one may instead assign a JSON file path to
+                     Or by add 'filetype' specific top level key
+                     Filetype customization example~
+                     >
+    let g:balanced_braces = {
+          \   'html': {
+          \     'angle-bracket': { 'open': '<', 'close': '>' },
+          \   },
+          \ }
+<
+                     To remove a symbol pare defined by `all` key, set `false`
+                     Remove `all` entry example~
+                     >
+    let g:balanced_braces = {
+         \   'all': {
+         \     'square-bracket': false,
+         \   },
+         \ }
+<
+                     Alternatively one may instead assign a JSON file path to
                      the `g:balanced_braces` variable to customize
                      configurations
                      JSON file example contents~
                      >
     {
-      "parentheses": {
-        "open": "(",
-        "close": ")"
+      "exclude": [],
+      "all": {
+        "parentheses": {
+          "open": "(",
+          "close": ")"
+        },
+        "curly-brace": {
+          "open": "{",
+          "close": "}"
+        },
+        "square-bracket": {
+          "open": "[",
+          "close": "]"
+        }
       },
-      "curly-brace": {
-        "open": "{",
-        "close": "}"
-      },
-      "square-bracket": {
-        "open": "[",
-        "close": "]"
+      "html": {
+        "angle-bracket": {
+          "open": "<",
+          "close": ">"
+        }
       }
     }
 <
