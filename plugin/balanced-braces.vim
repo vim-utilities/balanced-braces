@@ -52,19 +52,20 @@ endfunction
 
 ""
 " Registers Insert mode re-mapping
-" Parameter: {define__configurations_entry} configuration_entry
-function! s:Register_Insert_Remapping(configuration_entry) abort
-  for [l:name, l:config] in items(a:configuration_entry)
+" Parameter: {define__configurations_entry} configurations_entry
+" See: {docs} :help :map-<buffer>
+function! s:Register_Insert_Remapping(configurations_entry) abort
+  for [l:name, l:config] in items(a:configurations_entry)
     if type(l:config) != type({})
       continue
     endif
 
-    execute 'inoremap <expr>' l:config['open'] 'Balanced_Braces("'
+    execute 'inoremap <buffer> <expr>' l:config['open'] 'Balanced_Braces("'
           \ . l:config['open'] . '", "'
           \ . l:config['open'] . '", "'
           \ . l:config['close'] . '")'
 
-    execute 'inoremap <expr>' l:config['close'] 'Balanced_Braces("'
+    execute 'inoremap <buffer> <expr>' l:config['close'] 'Balanced_Braces("'
           \ . l:config['close'] . '", "'
           \ . l:config['open'] . '", "'
           \ . l:config['close'] . '")'
@@ -73,9 +74,9 @@ endfunction
 
 
 ""
-" Parameter: {string} input
-" Parameter: {string} open
-" Parameter: {string} close
+" Parameter: {string} input - Character that was read from keyboard input
+" Parameter: {string} open - Open brace, bracket, or parenthesis
+" Parameter: {string} close - Closing brace, bracket, or parenthesis
 " @see {link} https://www.reddit.com/r/vim/comments/bsh7da/how_do_i_make_vim_automatically_complete/
 function! Balanced_Braces(input, open, close) abort
   let l:current_word = expand('<cWORD>')
@@ -97,10 +98,14 @@ endfunction
 " Configurations that may be overwritten
 " Type: define__configurations
 let s:defaults = {
-      \   'parentheses': { 'open': '(', 'close': ')' },
-      \   'curly-brace': { 'open': '{', 'close': '}' },
-      \   'square-bracket': { 'open': '[', 'close': ']' },
+      \   'exclude': [],
+      \   'all': {
+      \     'parentheses': { 'open': '(', 'close': ')' },
+      \     'curly-brace': { 'open': '{', 'close': '}' },
+      \     'square-bracket': { 'open': '[', 'close': ']' },
+      \   },
       \ }
+
 
 ""
 " Merge customization with defaults
@@ -122,5 +127,22 @@ else
 endif
 
 
-autocmd BufWinEnter * :call s:Register_Insert_Remapping(g:balanced_braces)
+""
+" Halt if filetype is in exclude list, or load filetype customization
+if len(&filetype)
+  let s:exclude_file_types = get(g:balanced_braces, 'exclude', [])
+  if count(s:exclude_file_types, &filetype)
+    finish
+  endif
+
+  let s:configure_filetype = get(g:balanced_braces, &filetype, {})
+  if len(s:configure_filetype)
+    autocmd BufWinEnter * :call s:Register_Insert_Remaping(s:configure_filetype)
+  endif
+endif
+
+
+""
+" Load configurations for all filetypes
+autocmd BufWinEnter * :call s:Register_Insert_Remapping(g:balanced_braces['all'])
 
