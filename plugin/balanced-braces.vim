@@ -52,10 +52,17 @@ endfunction
 
 ""
 " Registers Insert mode re-mapping
-" Parameter: {define__configurations_entry} configurations_entry
 " See: {docs} :help :map-<buffer>
-function! s:Register_Insert_Remapping(configurations_entry) abort
-  for [l:name, l:config] in items(a:configurations_entry)
+function! s:Register_Insert_Remapping() abort
+  let l:exclude_file_types = get(g:balanced_braces, 'exclude', [])
+  if count(l:exclude_file_types, &filetype)
+    return
+  endif
+
+  let l:configurations_entry = get(g:balanced_braces, &filetype, {})
+  let l:configurations_entry = s:Dict_Merge(g:balanced_braces['all'], l:configurations_entry)
+
+  for [l:name, l:config] in items(l:configurations_entry)
     if type(l:config) != type({})
       continue
     endif
@@ -128,21 +135,6 @@ endif
 
 
 ""
-" Halt if filetype is in exclude list, or load filetype customization
-if len(&filetype)
-  let s:exclude_file_types = get(g:balanced_braces, 'exclude', [])
-  if count(s:exclude_file_types, &filetype)
-    finish
-  endif
-
-  let s:configure_filetype = get(g:balanced_braces, &filetype, {})
-  if len(s:configure_filetype)
-    autocmd BufWinEnter * :call s:Register_Insert_Remaping(s:configure_filetype)
-  endif
-endif
-
-
-""
-" Load configurations for all filetypes
-autocmd BufWinEnter * :call s:Register_Insert_Remapping(g:balanced_braces['all'])
+" Register insert remapping after &filetype is defined
+autocmd BufWinEnter * :call s:Register_Insert_Remapping()
 
