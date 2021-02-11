@@ -51,7 +51,7 @@ Balance parentheses, curly-braces, and square-brackets
   "&#x1F3D7; Prerequisites and/or dependencies that this project needs to function properly"
 
 
-This repository requires the [Vim][vim_home] text editor to be installed the source code is available on [GitHub -- `vim/vim`][vim__github], and most GNU Linux package managers are able to install Vim directly, eg...
+This repository requires the [Vim][link__vim_home] text editor to be installed the source code is available on [GitHub -- `vim/vim`][link__vim_github], and most GNU Linux package managers are able to install Vim directly, eg...
 
 
 - Arch based Operating Systems
@@ -514,7 +514,7 @@ For further details review full length version of [AGPL-3.0][branch__current__li
   https://www.vim.org
   "Home page for the Vim text editor"
 
-[vim__github]:
+[link__vim_github]:
   https://github.com/vim/vim
   "Source code for Vim on GitHub"
 
